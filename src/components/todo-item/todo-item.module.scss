@@ -1,0 +1,31 @@
+.item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: wheat;
+  border: 3px black solid;
+  border-radius: 15px;
+  transition: background-color 0.3s ease, color 0.3s ease, transform 0.3s ease;
+  &:hover {
+    background-color: rgb(29, 120, 240);
+    color:azure;
+  }
+  &:active {
+    transform: scale(0.95);
+  }
+}
+
+.item_status {
+  width: 20px;
+  height: 20px;
+  background-color: white;
+  border: 1px black solid;
+  border-radius: 5px;
+}
+
+.box {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1.5vw;
+}
