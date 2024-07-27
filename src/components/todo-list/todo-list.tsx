@@ -15,7 +15,7 @@ const TodoList = (): JSX.Element => {
   const [currentTodo, setCurrentTodo] = useState<ITodo | null>(null);
 
   const todoItems = useSelector((state: RootState) => state.todo.todoItems)
-
+  // localStorage.setItem('todoState', JSON.stringify(todoItems));
   // для редактирования - передаем в модалку текущий туду
   const handleItemClick = (item: ITodo) => {
     setCurrentTodo(item)
@@ -43,13 +43,13 @@ const TodoList = (): JSX.Element => {
         <h2 className={styles.title}>Moй список задач</h2>
         <button className={styles.add_btn} onClick={handleAddTask}>Добавить</button>
       </div>
-      {todoItems.map(item => (
+      {todoItems ? todoItems.map(item => (
         <TodoItem 
           key={item.id}
           todo={item}
           onItemClick={() => handleItemClick(item)}
           />
-      ))}
+      )) : null}
       {isModalOpen ? (
         <Modal
           onClose={() => setIsModalOpen(false)}

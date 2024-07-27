@@ -8,17 +8,17 @@ interface todoState {
 
 const initialState: todoState = {
   todoItems: [
-    { id: 0,
-      title: 'Первая задачка',
-      description: 'Сходить в лес, набрать грибов и все такое',
-      completed: false,
-      date: formatTime(new Date()),
-    },
-    { id: 1,
-      title: 'Вторая задачка',
-      description: 'Написать проект, съесть грибы и все такое',
-      completed: true,
-      date: formatTime(new Date())},
+    // { id: 0,
+    //   title: 'Первая задачка',
+    //   description: 'Сходить в лес, набрать грибов и все такое',
+    //   completed: false,
+    //   date: formatTime(new Date()),
+    // },
+    // { id: 1,
+    //   title: 'Вторая задачка',
+    //   description: 'Написать проект, съесть грибы и все такое',
+    //   completed: true,
+    //   date: formatTime(new Date())},
   ]
 }
 
@@ -28,7 +28,7 @@ const todoSlicer = createSlice({
   reducers: {
     addTodo: (state, action: PayloadAction<{ title: string, description: string}>) => {
       const newTodo = {
-        id: state.todoItems.length + 1,
+        id: Math.random(),
         title: action.payload.title,
         description: action.payload.description,
         completed: false,
@@ -55,8 +55,11 @@ const todoSlicer = createSlice({
   deleteTodo: (state, action: PayloadAction<number>) => {
     state.todoItems = state.todoItems.filter(todo => todo.id !== action.payload);
   },
+  clearTodoItems: (state) => {
+    state.todoItems = [];
+  },
 },
 })
 
-export const { addTodo, changeTodo, toggleTodoStatus, deleteTodo } = todoSlicer.actions;
+export const { addTodo, changeTodo, toggleTodoStatus, deleteTodo, clearTodoItems } = todoSlicer.actions;
 export default todoSlicer.reducer;
