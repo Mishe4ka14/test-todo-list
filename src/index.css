@@ -6,8 +6,8 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  background-color: aqua;
-  border: 4px red solid;
+  background-color: rgb(155, 205, 234);
+  border: 5px rgb(173, 197, 202) solid;
   border-radius: 15px;
 }
 

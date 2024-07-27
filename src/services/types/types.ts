@@ -5,3 +5,7 @@ export interface ITodo {
   completed: boolean;
   date: string;
 }
+
+export const ItemTypes = {
+  TODO: 'todo',
+};

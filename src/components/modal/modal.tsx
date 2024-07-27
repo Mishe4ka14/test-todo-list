@@ -3,6 +3,7 @@ import ModalOverlay from '../modal-overlay/modal-overlay';
 import styles from './modal.module.scss';
 import { useEffect, useState } from 'react';
 import { ITodo } from '../../services/types/types';
+import icon from '../../assets/cross-svgrepo-com.svg'
 
 const modalRoot = document.getElementById('modal-root');
 
@@ -18,6 +19,7 @@ const Modal = ({ onClose, onSave, todo } : ModalProps): JSX.Element => {
   const [title, setTitle] = useState(todo ? todo.title : '')
   const [description, setDescription] = useState(todo ? todo.description : '')
 
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [isPopupOpen, setPopupOpen] = useState(false);
 
 
@@ -53,9 +55,9 @@ const Modal = ({ onClose, onSave, todo } : ModalProps): JSX.Element => {
    <>
     <ModalOverlay closeModal={(() => handlerClose())}/>
     <div className={styles.container}>
-      <div className={styles.close}>
-        <img onClick={(() => handlerClose())}/>
-      </div>
+      <button onClick={() => handlerClose()} style={{ background: 'none', border: 'none', padding: 0 }}>
+        <img className={styles.close_btn} src={icon} alt="Close" />
+      </button>
       <h2>{ todo ? 'Редактировать' : 'Добавить'}</h2>
       <div className={styles.box}>
         <div>

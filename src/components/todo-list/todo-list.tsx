@@ -1,11 +1,10 @@
-import { useState } from 'react';
+import React, { useState, useCallback, useMemo } from 'react';
 import TodoItem from '../todo-item/todo-item';
 import styles from './todo-list.module.scss';
 import Modal from '../modal/modal';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { RootState } from '../../store/store';
 import { ITodo } from '../../services/types/types';
-import { useDispatch } from 'react-redux';
 import { addTodo, changeTodo } from '../../features/todo-slicer/todo-slicer';
 
 const TodoList = (): JSX.Element => {
@@ -13,52 +12,87 @@ const TodoList = (): JSX.Element => {
 
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const [currentTodo, setCurrentTodo] = useState<ITodo | null>(null);
+  const [filter, setFilter] = useState<string>('all');
 
-  const todoItems = useSelector((state: RootState) => state.todo.todoItems)
-  // localStorage.setItem('todoState', JSON.stringify(todoItems));
+  const todoItems = useSelector((state: RootState) => state.todo.todoItems);
+
   // для редактирования - передаем в модалку текущий туду
-  const handleItemClick = (item: ITodo) => {
-    setCurrentTodo(item)
+  const handleItemClick = useCallback((item: ITodo) => {
+    setCurrentTodo(item);
     setIsModalOpen(true);
-  };
+  }, []);
 
   // для добавления - передаем в модалку пустые поля
-  const handleAddTask = () => {
-    setCurrentTodo(null)
+  const handleAddTask = useCallback(() => {
+    setCurrentTodo(null);
     setIsModalOpen(true);
-  }
+  }, []);
 
-  const handleSave = (title: string, description: string) => {
+  const handleSave = useCallback((title: string, description: string) => {
     if (currentTodo) {
-      dispatch(changeTodo(({id: currentTodo.id, title, description})))
+      dispatch(changeTodo({ id: currentTodo.id, title, description }));
     } else {
-      dispatch(addTodo({title, description}))
+      dispatch(addTodo({ title, description }));
     }
-    setIsModalOpen(false)
-  }
+    setIsModalOpen(false);
+  }, [currentTodo, dispatch]);
 
-  return(
+  const handleFilterChange = useCallback((filter: string) => {
+    setFilter(filter);
+  }, []);
+
+  const filteredItems = useMemo(() => {
+    return todoItems.filter(item => {
+      if (filter === 'completed') {
+        return item.completed;
+      } else if (filter === 'incomplete') {
+        return !item.completed;
+      } else {
+        return true;
+      }
+    });
+  }, [todoItems, filter]);
+
+  const moveTodo = useCallback((fromIndex: number, toIndex: number) => {
+    const updatedTodos = [...todoItems];
+    const [movedTodo] = updatedTodos.splice(fromIndex, 1);
+    updatedTodos.splice(toIndex, 0, movedTodo);
+
+    // диспатчим обновление порядка
+    dispatch({ type: 'todo/moveTodo', payload: updatedTodos });
+  }, [dispatch, todoItems]);
+
+  return (
     <main className={styles.page}>
       <div className={styles.box}>
         <h2 className={styles.title}>Moй список задач</h2>
         <button className={styles.add_btn} onClick={handleAddTask}>Добавить</button>
       </div>
-      {todoItems ? todoItems.map(item => (
-        <TodoItem 
+      <div>
+        <div className={styles.filter}>
+          <button className={filter === 'all' ? styles.filter_btn_active : styles.filter_btn} onClick={() => handleFilterChange('all')}>Все</button>
+          <button className={filter === 'completed' ? styles.filter_btn_active : styles.filter_btn} onClick={() => handleFilterChange('completed')}>Сделано</button>
+          <button className={filter === 'incomplete' ? styles.filter_btn_active : styles.filter_btn} onClick={() => handleFilterChange('incomplete')}>Не сделано</button>
+        </div>
+      </div>
+      {filteredItems.length ? filteredItems.map((item, index) => (
+        <TodoItem
           key={item.id}
           todo={item}
+          moveTodo={moveTodo}
+          index={index}
           onItemClick={() => handleItemClick(item)}
-          />
+        />
       )) : null}
       {isModalOpen ? (
         <Modal
           onClose={() => setIsModalOpen(false)}
           onSave={handleSave}
           todo={currentTodo}
-          />
-        ) : null}
+        />
+      ) : null}
     </main>
-  )
+  );
 }
 
-export default TodoList;
+export default React.memo(TodoList);

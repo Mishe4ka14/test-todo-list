@@ -59,6 +59,9 @@ const todoSlicer = createSlice({
   clearTodoItems: (state) => {
     state.todoItems = [];
   },
+  moveTodo: (state, action: PayloadAction<ITodo[]>) => {
+    state.todoItems = action.payload;
+  },
 },
 })
 

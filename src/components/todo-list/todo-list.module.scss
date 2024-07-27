@@ -33,3 +33,30 @@
     transform: scale(0.85);
   }
 }
+
+.filter {
+  display: flex;
+  flex-direction: row;
+  gap: 5px;
+}
+
+.filter_btn {
+  background-color: wheat;
+  color: black;
+  width: 5vw;
+  height: 2.5vh;
+  border-radius: 10px;
+  transition: background-color 0.3s ease, color 0.3s ease, transform 0.3s ease;
+  &:hover {
+    background-color: rgb(187, 74, 74);
+    color: black;
+  }
+  &:active {
+    transform: scale(0.85);
+  }
+}
+
+.filter_btn_active {
+  @extend .filter_btn;
+  background-color: rgb(187, 74, 74);
+}
