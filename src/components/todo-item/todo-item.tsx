@@ -9,11 +9,11 @@ const TodoItem = ({ todo, onItemClick }: { todo: ITodo; onItemClick: () => void 
   const dispatch = useDispatch();
   const { title, description, id, date, completed } = todo;
 
-  const handleDelete = (id: number) => {
+  const handleDelete = (id: string) => {
     dispatch(deleteTodo(id));
   };
 
-  const handleToggleStatus = (id: number) => {
+  const handleToggleStatus = (id: string) => {
     dispatch(toggleTodoStatus(id));
   };
 

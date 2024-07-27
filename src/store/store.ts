@@ -1,7 +1,6 @@
 import { configureStore } from '@reduxjs/toolkit';
 import todoReducer from '../features/todo-slicer/todo-slicer';
 import localStorageMiddleware from '../middlewares/local-storage-middleware';
-import formatTime from '../hooks/formate-time';
 
 // загружаем состояние из локал стораджа в хранилище
 const preloadedState = () => {

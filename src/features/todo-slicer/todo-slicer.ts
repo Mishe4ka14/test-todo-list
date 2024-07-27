@@ -1,6 +1,7 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { ITodo } from '../../services/types/types';
 import formatTime from '../../hooks/formate-time';
+import { v4 as uuidv4 } from 'uuid'; 
 
 interface todoState {
   todoItems: ITodo[];
@@ -28,7 +29,7 @@ const todoSlicer = createSlice({
   reducers: {
     addTodo: (state, action: PayloadAction<{ title: string, description: string}>) => {
       const newTodo = {
-        id: Math.random(),
+        id: uuidv4(),
         title: action.payload.title,
         description: action.payload.description,
         completed: false,
@@ -36,7 +37,7 @@ const todoSlicer = createSlice({
       };
       state.todoItems.push(newTodo);
     },
-    changeTodo: (state, action: PayloadAction<{id: number, title: string, description: string}>) => {
+    changeTodo: (state, action: PayloadAction<{id: string, title: string, description: string}>) => {
       const index = state.todoItems.findIndex(todo => todo.id === action.payload.id);
       if (index !== -1) {
         state.todoItems[index] = {
@@ -46,13 +47,13 @@ const todoSlicer = createSlice({
         };
     }
   },
-  toggleTodoStatus: (state, action: PayloadAction<number>) => {
+  toggleTodoStatus: (state, action: PayloadAction<string>) => {
     const todo = state.todoItems.find(todo => todo.id === action.payload);
     if (todo) {
       todo.completed = !todo.completed;
     }
   },
-  deleteTodo: (state, action: PayloadAction<number>) => {
+  deleteTodo: (state, action: PayloadAction<string>) => {
     state.todoItems = state.todoItems.filter(todo => todo.id !== action.payload);
   },
   clearTodoItems: (state) => {
