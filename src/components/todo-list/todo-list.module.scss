@@ -11,3 +11,25 @@
   margin: 0;
   padding: 0;
 }
+
+.box {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.add_btn {
+  background-color: black;
+  color: white;
+  width: 5vw;
+  height: 3vh;
+  border-radius: 10px;
+  transition: background-color 0.3s ease, color 0.3s ease, transform 0.3s ease;
+  &:hover {
+    background-color: white;
+    color: black;
+  }
+  &:active {
+    transform: scale(0.85);
+  }
+}

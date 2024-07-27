@@ -4,15 +4,44 @@
   top: 15vh;
   left: 33vw;
   background-color: white;
-  width: 560px;
+  width: 30vw;
   border-radius: 20px;
   z-index: 999;
+  background-color: wheat;
+  padding-left: 20px;
 }
 
 .box{
   display: flex;
   flex-direction: column;
-  align-items: center;
+  align-items: self-start ;
   justify-content: center;
-  gap: 30px;
+  gap: 25px;
+}
+
+.input {
+  width: 25vw;
+  height: 4vh;
+  border-radius: 10px;
+  border: none;
+  outline: none;
+}
+
+.save_btn {
+  margin-bottom: 2vh;
+  background-color: black;
+  color: white;
+  width: 100px;
+  height: 3vh;
+  border-radius: 10px;
+  margin-right: 1vw;
+  transition: background-color 0.3s ease, color 0.3s ease, transform 0.3s ease;
+  z-index: 5;
+  &:hover {
+    background-color: white;
+    color: black;
+  }
+  &:active {
+    transform: scale(0.85);
+  }
 }

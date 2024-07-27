@@ -1,5 +1,6 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { ITodo } from '../../services/types/types';
+import formatTime from '../../hooks/formate-time';
 
 interface todoState {
   todoItems: ITodo[];
@@ -10,11 +11,14 @@ const initialState: todoState = {
     { id: 0,
       title: 'Первая задачка',
       description: 'Сходить в лес, набрать грибов и все такое',
-      completed: false},
+      completed: false,
+      date: formatTime(new Date()),
+    },
     { id: 1,
       title: 'Вторая задачка',
       description: 'Написать проект, съесть грибы и все такое',
-      completed: false},
+      completed: true,
+      date: formatTime(new Date())},
   ]
 }
 
@@ -24,10 +28,11 @@ const todoSlicer = createSlice({
   reducers: {
     addTodo: (state, action: PayloadAction<{ title: string, description: string}>) => {
       const newTodo = {
-        id: Date.now(),
+        id: state.todoItems.length + 1,
         title: action.payload.title,
         description: action.payload.description,
         completed: false,
+        date: formatTime(new Date()),
       };
       state.todoItems.push(newTodo);
     },
@@ -42,9 +47,9 @@ const todoSlicer = createSlice({
     }
   },
   toggleTodoStatus: (state, action: PayloadAction<number>) => {
-    const index = state.todoItems.findIndex(todo => todo.id === action.payload);
-    if (index !== -1) {
-      state.todoItems[index].completed = !state.todoItems[index].completed;
+    const todo = state.todoItems.find(todo => todo.id === action.payload);
+    if (todo) {
+      todo.completed = !todo.completed;
     }
   },
   deleteTodo: (state, action: PayloadAction<number>) => {

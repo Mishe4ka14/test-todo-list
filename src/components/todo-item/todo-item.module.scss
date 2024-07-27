@@ -6,26 +6,70 @@
   border: 3px black solid;
   border-radius: 15px;
   transition: background-color 0.3s ease, color 0.3s ease, transform 0.3s ease;
+  padding-left: 10px;
+  // padding-right: 5px;
   &:hover {
     background-color: rgb(29, 120, 240);
-    color:azure;
+    color: azure;
   }
+
   &:active {
     transform: scale(0.95);
   }
 }
 
-.item_status {
-  width: 20px;
-  height: 20px;
-  background-color: white;
+.status {
+  margin-right: 1vw;
+  width: 25px;
+  height: 25px;
   border: 1px black solid;
-  border-radius: 5px;
+  border-radius: 20px;
+  z-index: 5;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.ready {
+  @extend .status;
+  background-color: green;
+  color: white;
+}
+
+.not_ready {
+  @extend .status;
+  background-color: white;
 }
 
 .box {
   display: flex;
-  justify-content: space-between;
+  justify-content: space-around;
   align-items: center;
   gap: 1.5vw;
+}
+
+.delete_btn {
+    background-color: white;
+    color: black;
+    width: 4vw;
+    height: 3vh;
+    border-radius: 10px;
+    margin-right: 1vw;
+    transition: background-color 0.3s ease, color 0.3s ease, transform 0.3s ease;
+    z-index: 5;
+    &:hover {
+      background-color: gray;
+      color: black;
+    }
+    &:active {
+      transform: scale(0.85);
+    }
+}
+
+.item_description {
+  max-width: 45vw;
+}
+
+.item_name {
+  max-width: 12vw;
 }
